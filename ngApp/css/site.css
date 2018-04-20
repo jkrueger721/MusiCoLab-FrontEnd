@@ -1,0 +1,19 @@
+.homeHeader {
+    color: silver;
+}
+.projectItem {
+    font-size: 20px;
+    font-family: 'Raleway', sans-serif;
+}
+.projectList {
+   padding-top: 10px;
+   padding-bottom: 10px;
+}
+.card-text{
+    font-size: 12px;
+    font-family: 'Raleway', sans-serif;
+}
+.card {
+    margin-bottom: 15px;
+
+}
