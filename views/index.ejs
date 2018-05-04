@@ -48,9 +48,22 @@
 
 <ui-view></ui-view>
 
-
+  
   <script src="/ngApp/bundle.js"></script>
-
+  <script src="https://static.filestackapi.com/v3/filestack.js"></script>
+  <!-- <script type="text/javascript">
+    var fsClient = filestack.init('Ab6WXYLeSC60vuczv05zQz');
+    function openPicker() {
+      fsClient.pick({
+        fromSources:["local_file_system","imagesearch","facebook","instagram","dropbox"],
+        accept:["audio/*","image/*"]
+      }).then(function(response) {
+        // declare this function to handle response
+        handleFilestack(response);
+      });
+    }
+  </script> -->
+  
 </body>
 
 </html>

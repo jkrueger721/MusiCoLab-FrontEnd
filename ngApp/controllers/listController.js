@@ -8,26 +8,6 @@
 
 ListController.$inject = ['projectService'];
 
-//  class ProjectsAddController {
-
-//     constructor(projectService, $state) {
-//         this.projectService = projectService;
-//         this.$state = $state;
-//     }
-
-//     addProject() {
-//         let vm = {
-//             project: this.projectToCreate,
-//             userId: 1
-//         };
-//         console.log("from listContorller", vm);
-//         this.projectService.save(vm).then(
-//             () => this.$state.go('home')
-//         );
-//     }
-// }
-
-//ProjectsAddController.$inject = ['projectService', '$state'];
 
 export class ProjectsEditController {
 

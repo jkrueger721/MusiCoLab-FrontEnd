@@ -1,5 +1,31 @@
 ﻿export class LoginController {
-    constructor() {
-        this.message = 'login page';
+    constructor(userService, $state, $stateParams) {
+        
+        this.userService = userService;
+        this.userToLogin = userService.getUser($stateParams['id']);
+        this.$state = $state;
+        
     }
+    
+        login() {
+        console.log('login');
+       
+        this.userService.login(this.userToLogin).then(
+            (result) => {
+                console.log(result);
+                let userId = result.id;
+                console.log(userId ,'this is user id');
+                sessionStorage.setItem("userId", userId);
+                this.$state.go('home')
+                var item = sessionStorage.getItem("userId");
+                console.log(item);
+            }
+        );
+    
+    }
+            
+        
+    
 }
+
+    LoginController.$inject = ['userService', '$state', '$stateParams'];

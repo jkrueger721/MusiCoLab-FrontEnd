@@ -6,12 +6,11 @@
         }
 
         listProjects() {
-            console.log("service");
+        
             return this.ProjectResource.query();
         }
 
         save(project) {
-            console.log(project);
             return this.ProjectResource.save(project).$promise;
         }
 
