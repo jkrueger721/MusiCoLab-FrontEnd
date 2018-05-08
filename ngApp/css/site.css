@@ -1,6 +1,10 @@
 .homeHeader {
     color: silver;
 }
+body {
+   background-image: url(img/studio.jpg);
+    /* background-color: black; */
+}
 .projectItem {
     font-size: 20px;
     font-family: 'Raleway', sans-serif;
