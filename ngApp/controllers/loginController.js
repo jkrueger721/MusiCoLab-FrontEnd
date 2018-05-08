@@ -14,9 +14,11 @@
             (result) => {
                 console.log(result);
                 let userId = result.id;
+                let userName = result.userName;
                 console.log(userId ,'this is user id');
                 sessionStorage.setItem("userId", userId);
-                this.$state.go('home')
+                sessionStorage.setItem('userName', userName); 
+                this.$state.go('home');
                 var item = sessionStorage.getItem("userId");
                 console.log(item);
             }

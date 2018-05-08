@@ -48467,6 +48467,8 @@ var CreateController = exports.CreateController = function () {
 
         this.projectService = projectService;
         this.$state = $state;
+
+        console.log('CreateController');
     }
 
     _createClass(CreateController, [{
@@ -48474,25 +48476,29 @@ var CreateController = exports.CreateController = function () {
         value: function addProject() {
             var _this = this;
 
+            var uID = sessionStorage.getItem('userId');
             var vm = {
+
                 project: this.projectToCreate,
-                userId: 1
+                userId: uID
             };
             console.log("from CreateContorller", vm);
             this.projectService.save(vm).then(function () {
                 return _this.$state.go('home');
             });
-            //     var fsClient = filestack.init('Ab6WXYLeSC60vuczv05zQz');
-            //     function upLoad()  {
-
-            //     fsClient.pick({
-            //         fromSources:["local_file_system","imagesearch","facebook","instagram","dropbox"],
-            //         accept:["audio/*"]
-            //     }).then(function(response) {
-            //         // declare this function to handle response
-            //         handleFilestack(response);
-            //   }); 
-            // }
+        }
+    }, {
+        key: 'upload',
+        value: function upload() {
+            var fsClient = filestack.init('Ab6WXYLeSC60vuczv05zQz');
+            console.log('filstack upload');
+            fsClient.pick({
+                fromSources: ["local_file_system", "imagesearch", "facebook", "instagram", "dropbox"],
+                accept: ["audio/*"]
+            }).then(function (response) {
+                // declare this function to handle response
+                handleFilestack(response);
+            });
         }
     }]);
 
@@ -48644,8 +48650,10 @@ var LoginController = exports.LoginController = function () {
             this.userService.login(this.userToLogin).then(function (result) {
                 console.log(result);
                 var userId = result.id;
+                var userName = result.userName;
                 console.log(userId, 'this is user id');
                 sessionStorage.setItem("userId", userId);
+                sessionStorage.setItem('userName', userName);
                 _this.$state.go('home');
                 var item = sessionStorage.getItem("userId");
                 console.log(item);
