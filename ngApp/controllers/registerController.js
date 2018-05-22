@@ -7,7 +7,13 @@
       register() {
           console.log('registering this thing!!!');
         this.userService.save(this.userToRegister).then(
-            () => this.$state.go('home')
+
+            () => {
+            //  let userId = this.userToRegister.Id;
+            //  let userName = this.userToRegister.userName;
+            //  sessionStorage.setItem('userId',userId);
+            //  sessionStorage.setItem('userName', userName);   
+            this.$state.go('home')}
         );
     }
 }
