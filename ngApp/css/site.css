@@ -1,9 +1,12 @@
-.homeHeader {
+h1 {
     color: silver;
 }
 body {
    background-image: url(img/studio.jpg);
-    /* background-color: black; */
+   background-repeat: no-repeat;
+   background-size: cover;
+   background-position: center;
+
 }
 .projectItem {
     font-size: 20px;

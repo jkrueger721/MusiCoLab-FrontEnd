@@ -24,9 +24,9 @@
         <div class="checkbox col-sm-1">
             <label><input type="checkbox" value="true"> Private</label>
         </div>
-    </form>
-        <div class="col-sm-offset-11"><button ng-click="controller.upload()">Upload</button></div>
-        </div>
+        
+        <div class="col-sm-offset-11"><input type="text" ng-model="controller.projectToCreate.AudioUrl"><button ng-click="controller.upload()">Upload</button></div>
+            </div>
         <button class="btn btn-default" value="Save" ng-click="controller.addProject()">Submit</button>
-    
+    </form>
 </div>
