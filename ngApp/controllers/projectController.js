@@ -8,7 +8,7 @@ export class ProjectsController {
     }
 
     viewProject(){
-        this.projectToView.viewProject(this.projectToView.id).then( 
+        this.projectToView.viewProject(this.projectToView).then( 
             () => this.$state.go('project')
         );
 

@@ -48731,7 +48731,7 @@ var ProjectsController = exports.ProjectsController = function () {
         value: function viewProject() {
             var _this = this;
 
-            this.projectToView.viewProject(this.projectToView.id).then(function () {
+            this.projectToView.viewProject(this.projectToView).then(function () {
                 return _this.$state.go('project');
             });
         }
@@ -48772,11 +48772,11 @@ var RegisterController = exports.RegisterController = function () {
 
             console.log('registering this thing!!!');
             this.userService.save(this.userToRegister).then(function () {
-                //  let userId = this.userToRegister.Id;
-                //  let userName = this.userToRegister.userName;
-                //  sessionStorage.setItem('userId',userId);
-                //  sessionStorage.setItem('userName', userName);   
-                _this.$state.go('home');
+                var userId = _this.userToRegister.Id;
+                var userName = _this.userToRegister.userName;
+                sessionStorage.setItem('userId', userId);
+                sessionStorage.setItem('userName', userName);
+                _this.$state.go('login');
             });
         }
     }]);

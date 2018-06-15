@@ -1,13 +1,13 @@
 h1 {
     color: silver;
 }
-body {
+/* body {
    background-image: url(img/studio.jpg);
    background-repeat: no-repeat;
    background-size: cover;
    background-position: center;
 
-}
+} */
 .projectItem {
     font-size: 20px;
     font-family: 'Raleway', sans-serif;

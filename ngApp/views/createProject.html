@@ -22,7 +22,7 @@
         </div>
         <div class="row">
         <div class="checkbox col-sm-1">
-            <label><input type="checkbox" value="true"> Private</label>
+            <label><input type="checkbox" ng-model="controller.projectToCreate.IsPrivate"> Private</label>
         </div>
         
         <div class="col-sm-offset-11"><input type="text" ng-model="controller.projectToCreate.AudioUrl"><button ng-click="controller.upload()">Upload</button></div>
