@@ -22,7 +22,7 @@
                 var item = sessionStorage.getItem("userId");
                 console.log(item);
             }
-        );
+        );  
     
     }
             
