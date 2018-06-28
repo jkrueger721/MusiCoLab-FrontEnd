@@ -13,13 +13,22 @@
         save(project) {
             return this.ProjectResource.save(project).$promise;
         }
+        edit(id){
+            console.log('EDITING');
+            console.log('EDITING');
+            console.log('EDITING');
+            console.log('EDITING');
+            console.log('EDITING');
+            console.log(id);
+            return this.ProjectResource.save({ id }).$promise;
+        }
 
         getProject(id) {
-            return this.ProjectResource.get({ id: id });
+            return this.ProjectResource.get({ id });
         }
 
         deleteProject(id) {
-            return this.ProjectResource.delete({ id: id }).$promise;
+            return this.ProjectResource.delete({ id }).$promise;
         }
 
     }

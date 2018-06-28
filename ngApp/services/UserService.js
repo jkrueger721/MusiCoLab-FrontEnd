@@ -1,10 +1,10 @@
+const baseUrl = 'http://localhost:64152/api/user';
 export class UserService {
-    
     constructor($resource) {
-        this.UserResource = $resource('http://localhost:64152/api/users/:id', null , {
+        this.UserResource = $resource(baseUrl, null , {
             login: {
                 method: 'POST',
-                url: 'http://localhost:64152/api/users/login'
+                url: `${baseUrl}/login`
             }
         });
     }
@@ -13,7 +13,7 @@ export class UserService {
         return this.UserResource.save(user).$promise;
     }
     getUser(id) {
-        return this.UserResource.get({ id: id });
+        return this.UserResource.get({ id });
     }
     login(user){
         return this.UserResource.login(user).$promise;

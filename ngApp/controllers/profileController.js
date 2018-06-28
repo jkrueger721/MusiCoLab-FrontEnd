@@ -1,6 +1,6 @@
 export class ProfileController {
     constructor(projectService){
-        this.user = sessionStorage.getItem(userId, userName);
+        this.user = sessionStorage.getItem("userName");
         this.myProjects = projectService.listProjects();
     }
 } 
