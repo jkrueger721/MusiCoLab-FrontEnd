@@ -18,7 +18,7 @@ export class ProjectsEditController {
     }
 
     editProject() {
-        this.projectService.save(this.projectToEdit).then(
+        this.projectService.edit(this.projectToEdit.id).then(
             () => this.$state.go('home')
         );
     }

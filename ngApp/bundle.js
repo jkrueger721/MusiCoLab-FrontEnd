@@ -48594,7 +48594,7 @@ var ProjectsEditController = exports.ProjectsEditController = function () {
         value: function editProject() {
             var _this = this;
 
-            this.projectService.save(this.projectToEdit).then(function () {
+            this.projectService.edit(this.projectToEdit.id).then(function () {
                 return _this.$state.go('home');
             });
         }
@@ -48696,7 +48696,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var ProfileController = exports.ProfileController = function ProfileController(projectService) {
     _classCallCheck(this, ProfileController);
 
-    this.user = sessionStorage.getItem(userId, userName);
+    this.user = sessionStorage.getItem("userName");
     this.myProjects = projectService.listProjects();
 };
 
@@ -48731,7 +48731,7 @@ var ProjectsController = exports.ProjectsController = function () {
         value: function viewProject() {
             var _this = this;
 
-            this.projectToView.viewProject(this.projectToView).then(function () {
+            this.projectToView.getProject(this.projectToView.id).then(function () {
                 return _this.$state.go('project');
             });
         }
@@ -48821,6 +48821,17 @@ var ProjectService = exports.ProjectService = function () {
             return this.ProjectResource.save(project).$promise;
         }
     }, {
+        key: 'edit',
+        value: function edit(id) {
+            console.log('EDITING');
+            console.log('EDITING');
+            console.log('EDITING');
+            console.log('EDITING');
+            console.log('EDITING');
+            console.log(id);
+            return this.ProjectResource.save({ id: id }).$promise;
+        }
+    }, {
         key: 'getProject',
         value: function getProject(id) {
             return this.ProjectResource.get({ id: id });
@@ -48852,14 +48863,16 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var baseUrl = 'http://localhost:64152/api/user';
+
 var UserService = exports.UserService = function () {
     function UserService($resource) {
         _classCallCheck(this, UserService);
 
-        this.UserResource = $resource('http://localhost:64152/api/users/:id', null, {
+        this.UserResource = $resource(baseUrl, null, {
             login: {
                 method: 'POST',
-                url: 'http://localhost:64152/api/users/login'
+                url: baseUrl + '/login'
             }
         });
     }
