@@ -24,10 +24,11 @@
         }
 
         getProject(id) {
-            return this.ProjectResource.get({ id });
+            return this.ProjectResource.get({ id }).$promise;
         }
 
         deleteProject(id) {
+            console.log("Id to delete:" + id);
             return this.ProjectResource.delete({ id }).$promise;
         }
 
