@@ -48582,9 +48582,13 @@ ListController.$inject = ['projectService'];
 
 var ProjectsEditController = exports.ProjectsEditController = function () {
     function ProjectsEditController(projectService, $state, $stateParams) {
+        var _this = this;
+
         _classCallCheck(this, ProjectsEditController);
 
-        this.projectToEdit = projectService.getProject($stateParams['id']);
+        projectService.getProject($stateParams['id']).then(function (project) {
+            return _this.projectToEdit = project;
+        });
         this.$state = $state;
         this.projectService = projectService;
     }
@@ -48592,10 +48596,10 @@ var ProjectsEditController = exports.ProjectsEditController = function () {
     _createClass(ProjectsEditController, [{
         key: 'editProject',
         value: function editProject() {
-            var _this = this;
+            var _this2 = this;
 
             this.projectService.edit(this.projectToEdit.id).then(function () {
-                return _this.$state.go('home');
+                return _this2.$state.go('home');
             });
         }
     }]);
@@ -48607,9 +48611,13 @@ ProjectsEditController.$inject = ['projectService', '$state', '$stateParams'];
 
 var ProjectsDeleteController = exports.ProjectsDeleteController = function () {
     function ProjectsDeleteController(projectService, $state, $stateParams) {
+        var _this3 = this;
+
         _classCallCheck(this, ProjectsDeleteController);
 
-        this.projectToDelete = projectService.getProject($stateParams['id']);
+        projectService.getProject($stateParams['id']).then(function (project) {
+            return _this3.projectToDelete = project;
+        });
         this.$state = $state;
         this.projectService = projectService;
     }
@@ -48617,10 +48625,11 @@ var ProjectsDeleteController = exports.ProjectsDeleteController = function () {
     _createClass(ProjectsDeleteController, [{
         key: 'deleteProject',
         value: function deleteProject() {
-            var _this2 = this;
+            var _this4 = this;
 
+            console.log('this is deleting');
             this.projectService.deleteProject(this.projectToDelete.id).then(function () {
-                return _this2.$state.go('home');
+                return _this4.$state.go('home');
             });
         }
     }]);
@@ -48834,11 +48843,12 @@ var ProjectService = exports.ProjectService = function () {
     }, {
         key: 'getProject',
         value: function getProject(id) {
-            return this.ProjectResource.get({ id: id });
+            return this.ProjectResource.get({ id: id }).$promise;
         }
     }, {
         key: 'deleteProject',
         value: function deleteProject(id) {
+            console.log("Id to delete:" + id);
             return this.ProjectResource.delete({ id: id }).$promise;
         }
     }]);

@@ -12,7 +12,8 @@ ListController.$inject = ['projectService'];
 export class ProjectsEditController {
 
     constructor(projectService, $state, $stateParams) {
-        this.projectToEdit = projectService.getProject($stateParams['id']);
+        projectService.getProject($stateParams['id'])
+            .then(project => this.projectToEdit = project);
         this.$state = $state;
         this.projectService = projectService;
     }
@@ -30,12 +31,14 @@ ProjectsEditController.$inject = ['projectService', '$state', '$stateParams'];
 export class ProjectsDeleteController {
 
     constructor(projectService, $state, $stateParams) {
-        this.projectToDelete = projectService.getProject($stateParams['id']);
+        projectService.getProject($stateParams['id'])
+            .then(project => this.projectToDelete = project);
         this.$state = $state;
         this.projectService = projectService;
     }
 
     deleteProject() {
+        console.log('this is deleting');
         this.projectService.deleteProject(this.projectToDelete.id).then(
             () => this.$state.go('home')
         );
