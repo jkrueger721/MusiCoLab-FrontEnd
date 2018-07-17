@@ -48700,16 +48700,32 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ProfileController = exports.ProfileController = function ProfileController(projectService) {
-    _classCallCheck(this, ProfileController);
+var ProfileController = exports.ProfileController = function () {
+    function ProfileController(projectService, $state) {
+        _classCallCheck(this, ProfileController);
 
-    this.user = sessionStorage.getItem("userName");
-    this.myProjects = projectService.listProjects();
-};
+        this.user = sessionStorage.getItem("userName");
+        this.myProjects = projectService.listProjects();
+        this.$state = $state;
+    }
 
-ProfileController.$inject = ['projectService'];
+    _createClass(ProfileController, [{
+        key: 'logOut',
+        value: function logOut() {
+            sessionStorage.removeItem('userId');
+            sessionStorage.removeItem('userName');
+            this.$state.go('home');
+        }
+    }]);
+
+    return ProfileController;
+}();
+
+ProfileController.$inject = ['projectService', '$state', '$stateParams'];
 
 /***/ }),
 /* 13 */
@@ -48815,7 +48831,11 @@ var ProjectService = exports.ProjectService = function () {
         _classCallCheck(this, ProjectService);
 
         console.log('resource', $resource);
-        this.ProjectResource = $resource('http://localhost:64152/api/projects/:id');
+        this.ProjectResource = $resource('http://localhost:64152/api/projects/:id', null, {
+            update: { method: 'PUT',
+                url: 'http://localhost:64152/api/projects/edit/:id'
+            }
+        });
     }
 
     _createClass(ProjectService, [{
@@ -48838,7 +48858,7 @@ var ProjectService = exports.ProjectService = function () {
             console.log('EDITING');
             console.log('EDITING');
             console.log(id);
-            return this.ProjectResource.save({ id: id }).$promise;
+            return this.ProjectResource.update({ id: id }).$promise;
         }
     }, {
         key: 'getProject',

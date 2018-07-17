@@ -2,8 +2,7 @@
     constructor(userService, $state, $stateParams) {
         
         this.userService = userService;
-        userService.getUser($stateParams['id'])
-            .then(user => this.userToLogin = user);
+        this.userToLogin = userService.getUser($stateParams['id'])
         this.$state = $state;
         
     }
@@ -26,6 +25,7 @@
         );  
     
     }
+        
             
         
     
