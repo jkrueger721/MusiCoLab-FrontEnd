@@ -48598,7 +48598,8 @@ var ProjectsEditController = exports.ProjectsEditController = function () {
         value: function editProject() {
             var _this2 = this;
 
-            this.projectService.edit(this.projectToEdit.id).then(function () {
+            console.log("Got to EditProject. Id: " + this.projectToEdit.id);
+            this.projectService.edit(this.projectToEdit.id, this.projectToEdit).then(function () {
                 return _this2.$state.go('home');
             });
         }
@@ -48831,17 +48832,14 @@ var ProjectService = exports.ProjectService = function () {
         _classCallCheck(this, ProjectService);
 
         console.log('resource', $resource);
-        this.ProjectResource = $resource('http://localhost:64152/api/projects/:id', null, {
-            update: { method: 'PUT',
-                url: 'http://localhost:64152/api/projects/edit/:id'
-            }
+        this.ProjectResource = $resource('http://localhost:64152/api/projects/:id', { id: '@id' }, {
+            update: { method: 'PUT' }
         });
     }
 
     _createClass(ProjectService, [{
         key: 'listProjects',
         value: function listProjects() {
-
             return this.ProjectResource.query();
         }
     }, {
@@ -48851,14 +48849,16 @@ var ProjectService = exports.ProjectService = function () {
         }
     }, {
         key: 'edit',
-        value: function edit(id) {
+        value: function edit(id, updatedProject) {
             console.log('EDITING');
             console.log('EDITING');
             console.log('EDITING');
             console.log('EDITING');
             console.log('EDITING');
             console.log(id);
-            return this.ProjectResource.update({ id: id }).$promise;
+            console.log(updatedProject);
+
+            return this.ProjectResource.update(updatedProject).$promise;
         }
     }, {
         key: 'getProject',
