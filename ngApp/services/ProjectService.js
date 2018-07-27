@@ -2,29 +2,28 @@
 
     constructor($resource) {
         console.log('resource', $resource);
-        this.ProjectResource = $resource('http://localhost:64152/api/projects/:id', null , {
-          update: { method: 'PUT',
-            url: 'http://localhost:64152/api/projects/edit/:id'
-        }
+        this.ProjectResource = $resource('http://localhost:64152/api/projects/:id', { id: '@id' }, {
+            update: { method: 'PUT' }
         });
     }
 
     listProjects() {
-    
         return this.ProjectResource.query();
     }
 
     save(project) {
         return this.ProjectResource.save(project).$promise;
     }
-    edit(id){
+    edit(id, updatedProject) {
         console.log('EDITING');
         console.log('EDITING');
         console.log('EDITING');
         console.log('EDITING');
         console.log('EDITING');
         console.log(id);
-        return this.ProjectResource.update({ id }).$promise;
+        console.log(updatedProject);
+
+        return this.ProjectResource.update(updatedProject).$promise;
     }
 
     getProject(id) {

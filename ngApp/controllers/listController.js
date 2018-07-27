@@ -19,7 +19,8 @@ export class ProjectsEditController {
     }
 
     editProject() {
-        this.projectService.edit(this.projectToEdit.id).then(
+        console.log("Got to EditProject. Id: " + this.projectToEdit.id);
+        this.projectService.edit(this.projectToEdit.id, this.projectToEdit).then(
             () => this.$state.go('home')
         );
     }
