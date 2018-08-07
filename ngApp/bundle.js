@@ -48757,6 +48757,7 @@ var ProjectsController = exports.ProjectsController = function () {
         value: function viewProject() {
             var _this = this;
 
+            console.log(this.projectToView);
             this.projectToView.getProject(this.projectToView.id).then(function () {
                 return _this.$state.go('project');
             });
