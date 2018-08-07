@@ -8,6 +8,7 @@ export class ProjectsController {
     }
 
     viewProject(){
+        console.log(this.projectToView);
         this.projectToView.getProject(this.projectToView.id).then( 
             () => this.$state.go('project')
         );
