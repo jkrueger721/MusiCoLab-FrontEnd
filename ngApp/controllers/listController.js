@@ -19,8 +19,17 @@ export class ProjectsEditController {
     }
 
     editProject() {
-        console.log("Got to EditProject. Id: " + this.projectToEdit.id);
-        this.projectService.edit(this.projectToEdit.id, this.projectToEdit).then(
+        let uId = sessionStorage.getItem('userId');
+        let vm = {
+            userId : uId,
+            updatedProject : this.projectToEdit
+            
+        };
+
+        console.log("Got to EditProject. Id: " + vm.updatedProject.id);
+        console.log("This is user Id :" + uId);
+
+        this.projectService.edit(vm.updatedProject.id, vm).then(
             () => this.$state.go('home')
         );
     }
