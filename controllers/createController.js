@@ -8,14 +8,14 @@
        
       addProject() {
         let uID = sessionStorage.getItem('userId');
-        let vm = {
+        let vm = { 
             
             project: this.projectToCreate,
             userId: uID
         };
         console.log("from CreateContorller", vm);
         this.projectService.save(vm).then(
-            () => this.$state.go('home')
+            () => this.$state.go('list')
         );
     }
         upload()  {

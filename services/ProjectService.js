@@ -8,7 +8,9 @@
     }
 
     listProjects() {
+       
         return this.ProjectResource.query();
+        
     }
 
     save(project) {
