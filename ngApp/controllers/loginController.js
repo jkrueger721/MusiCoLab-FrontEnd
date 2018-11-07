@@ -2,7 +2,7 @@
     constructor(userService, $state, $stateParams) {
         
         this.userService = userService;
-        this.userToLogin = userService.getUser($stateParams['id']);
+        this.userToLogin = userService.getUser($stateParams['id'])
         this.$state = $state;
         
     }
@@ -18,13 +18,14 @@
                 console.log(userId ,'this is user id');
                 sessionStorage.setItem("userId", userId);
                 sessionStorage.setItem('userName', userName); 
-                this.$state.go('home');
+                this.$state.go('profile');
                 var item = sessionStorage.getItem("userId");
                 console.log(item);
             }
-        );
+        );  
     
     }
+        
             
         
     

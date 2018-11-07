@@ -1,9 +1,12 @@
-.homeHeader {
-    color: silver;
+html, body{
+    height: 100%;
 }
-body {
-   background-image: url(img/studio.jpg);
-    /* background-color: black; */
+.silver-text {
+    color: silver;
+} 
+.balck-text {
+    color: black;
+    font-family:'Raleway', sans-serif; 
 }
 .projectItem {
     font-size: 20px;
@@ -20,4 +23,8 @@ body {
 .card {
     margin-bottom: 15px;
 
+}
+.container {
+    height: 87%;
+    overflow-y: auto;
 }

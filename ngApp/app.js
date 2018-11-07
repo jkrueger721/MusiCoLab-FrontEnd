@@ -9,10 +9,11 @@ import {LoginController} from './controllers/loginController';
 import {RegisterController} from './controllers/registerController';
 import {CreateController} from './controllers/createController';
 import {ListController} from './controllers/listController';
-import {ProjectController} from './controllers/projectController';
+import {ProjectsController} from './controllers/projectController';
 import {ProjectsDeleteController} from './controllers/listController';
 import {ProjectsEditController} from './controllers/listController';
 import {UserService} from './services/UserService';
+import {ProfileController} from './controllers/profileController';
 
 
 
@@ -47,6 +48,12 @@ import {UserService} from './services/UserService';
             controller: RegisterController,
             controllerAs: 'controller'
         })
+        .state('profile',{
+            url:'/profile',
+            templateUrl: '/ngApp/views/profile.html',
+            controller: ProfileController,
+            controllerAs: 'controller'
+        })
         .state('create', {
             url: '/create',
             templateUrl: '/ngApp/views/createProject.html',
@@ -73,8 +80,8 @@ import {UserService} from './services/UserService';
         })
         .state('project', {
             url: '/project',
-            templateUrl: '/ngApp/views/proejct.html',
-            controller: ProjectController,
+            templateUrl: '/ngApp/views/project.html',
+            controller: ProjectsController,
             controllerAs: 'controller'
         })
         .state('notFound', {

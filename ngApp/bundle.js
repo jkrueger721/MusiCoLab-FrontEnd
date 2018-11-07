@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 16);
+/******/ 	return __webpack_require__(__webpack_require__.s = 17);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -89,7 +89,7 @@ var _angularBootstrapNpm = __webpack_require__(1);
 
 var _angularBootstrapNpm2 = _interopRequireDefault(_angularBootstrapNpm);
 
-var _ProjectService = __webpack_require__(14);
+var _ProjectService = __webpack_require__(15);
 
 var _homeController = __webpack_require__(9);
 
@@ -97,15 +97,17 @@ var _aboutController = __webpack_require__(7);
 
 var _loginController = __webpack_require__(11);
 
-var _registerController = __webpack_require__(13);
+var _registerController = __webpack_require__(14);
 
 var _createController = __webpack_require__(8);
 
 var _listController = __webpack_require__(10);
 
-var _projectController = __webpack_require__(12);
+var _projectController = __webpack_require__(13);
 
-var _UserService = __webpack_require__(15);
+var _UserService = __webpack_require__(16);
+
+var _profileController = __webpack_require__(12);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -133,6 +135,11 @@ function routing($stateProvider, $urlRouterProvider, $locationProvider) {
         templateUrl: '/ngApp/views/register.html',
         controller: _registerController.RegisterController,
         controllerAs: 'controller'
+    }).state('profile', {
+        url: '/profile',
+        templateUrl: '/ngApp/views/profile.html',
+        controller: _profileController.ProfileController,
+        controllerAs: 'controller'
     }).state('create', {
         url: '/create',
         templateUrl: '/ngApp/views/createProject.html',
@@ -155,8 +162,8 @@ function routing($stateProvider, $urlRouterProvider, $locationProvider) {
         controllerAs: 'controller'
     }).state('project', {
         url: '/project',
-        templateUrl: '/ngApp/views/proejct.html',
-        controller: _projectController.ProjectController,
+        templateUrl: '/ngApp/views/project.html',
+        controller: _projectController.ProjectsController,
         controllerAs: 'controller'
     }).state('notFound', {
         url: '/notFound',
@@ -48484,20 +48491,27 @@ var CreateController = exports.CreateController = function () {
             };
             console.log("from CreateContorller", vm);
             this.projectService.save(vm).then(function () {
-                return _this.$state.go('home');
+                return _this.$state.go('list');
             });
         }
     }, {
         key: 'upload',
         value: function upload() {
+            var _this2 = this;
+
             var fsClient = filestack.init('Ab6WXYLeSC60vuczv05zQz');
-            console.log('filstack upload');
+
             fsClient.pick({
-                fromSources: ["local_file_system", "imagesearch", "facebook", "instagram", "dropbox"],
+                fromSources: ["local_file_system", "url", "dropbox", "audio"],
                 accept: ["audio/*"]
             }).then(function (response) {
                 // declare this function to handle response
-                handleFilestack(response);
+                // handleFilestack(response)
+                console.log(response);
+                var fileUrl = response.filesUploaded[0].url;
+                // project.AudioUrl = fileUrl;
+                // return project;
+                _this2.projectToCreate.AudioUrl = fileUrl;
             });
         }
     }]);
@@ -48526,14 +48540,12 @@ var HomeController = exports.HomeController = function () {
     function HomeController() {
         _classCallCheck(this, HomeController);
 
-        var name = "LNastos";
-        localStorage.setItem("username", name);
         console.log('home!!');
         this.message = 'hello world';
     }
 
     _createClass(HomeController, [{
-        key: "getUsername",
+        key: 'getUsername',
         value: function getUsername() {
             var name = localStorage.getItem("username");
             console.log(name);
@@ -48568,9 +48580,13 @@ ListController.$inject = ['projectService'];
 
 var ProjectsEditController = exports.ProjectsEditController = function () {
     function ProjectsEditController(projectService, $state, $stateParams) {
+        var _this = this;
+
         _classCallCheck(this, ProjectsEditController);
 
-        this.projectToEdit = projectService.getProject($stateParams['id']);
+        projectService.getProject($stateParams['id']).then(function (project) {
+            return _this.projectToEdit = project;
+        });
         this.$state = $state;
         this.projectService = projectService;
     }
@@ -48578,10 +48594,40 @@ var ProjectsEditController = exports.ProjectsEditController = function () {
     _createClass(ProjectsEditController, [{
         key: 'editProject',
         value: function editProject() {
-            var _this = this;
+            var _this2 = this;
 
-            this.projectService.save(this.projectToEdit).then(function () {
-                return _this.$state.go('home');
+            var uId = sessionStorage.getItem('userId');
+            var vm = {
+                userId: uId,
+                updatedProject: this.projectToEdit
+
+            };
+
+            console.log("Got to EditProject. Id: " + vm.updatedProject.id);
+            console.log("This is user Id :" + uId);
+
+            this.projectService.edit(vm.updatedProject.id, vm).then(function () {
+                return _this2.$state.go('list');
+            });
+        }
+    }, {
+        key: 'upload',
+        value: function upload() {
+            var _this3 = this;
+
+            var fsClient = filestack.init('Ab6WXYLeSC60vuczv05zQz');
+
+            fsClient.pick({
+                fromSources: ["local_file_system", "url", "dropbox", "audio"],
+                accept: ["audio/*"]
+            }).then(function (response) {
+                // declare this function to handle response
+                // handleFilestack(response)
+                console.log(response);
+                var fileUrl = response.filesUploaded[0].url;
+                // project.AudioUrl = fileUrl;
+                // return project;
+                _this3.projectToCreate.AudioUrl = fileUrl;
             });
         }
     }]);
@@ -48593,9 +48639,13 @@ ProjectsEditController.$inject = ['projectService', '$state', '$stateParams'];
 
 var ProjectsDeleteController = exports.ProjectsDeleteController = function () {
     function ProjectsDeleteController(projectService, $state, $stateParams) {
+        var _this4 = this;
+
         _classCallCheck(this, ProjectsDeleteController);
 
-        this.projectToDelete = projectService.getProject($stateParams['id']);
+        projectService.getProject($stateParams['id']).then(function (project) {
+            return _this4.projectToDelete = project;
+        });
         this.$state = $state;
         this.projectService = projectService;
     }
@@ -48603,10 +48653,11 @@ var ProjectsDeleteController = exports.ProjectsDeleteController = function () {
     _createClass(ProjectsDeleteController, [{
         key: 'deleteProject',
         value: function deleteProject() {
-            var _this2 = this;
+            var _this5 = this;
 
+            console.log('this is deleting');
             this.projectService.deleteProject(this.projectToDelete.id).then(function () {
-                return _this2.$state.go('home');
+                return _this5.$state.go('home');
             });
         }
     }]);
@@ -48654,7 +48705,7 @@ var LoginController = exports.LoginController = function () {
                 console.log(userId, 'this is user id');
                 sessionStorage.setItem("userId", userId);
                 sessionStorage.setItem('userName', userName);
-                _this.$state.go('home');
+                _this.$state.go('profile');
                 var item = sessionStorage.getItem("userId");
                 console.log(item);
             });
@@ -48673,8 +48724,80 @@ LoginController.$inject = ['userService', '$state', '$stateParams'];
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ProfileController = exports.ProfileController = function () {
+    function ProfileController(projectService, $state) {
+        _classCallCheck(this, ProfileController);
+
+        this.user = sessionStorage.getItem("userName");
+        this.myProjects = projectService.listProjects();
+        this.$state = $state;
+    }
+
+    _createClass(ProfileController, [{
+        key: 'logOut',
+        value: function logOut() {
+            sessionStorage.removeItem('userId');
+            sessionStorage.removeItem('userName');
+            this.$state.go('home');
+        }
+    }]);
+
+    return ProfileController;
+}();
+
+ProfileController.$inject = ['projectService', '$state', '$stateParams'];
+
 /***/ }),
 /* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ProjectsController = exports.ProjectsController = function () {
+    function ProjectsController(projectService, $state, $stateParams) {
+        _classCallCheck(this, ProjectsController);
+
+        this.projectToView = projectService.getProject($stateParams['id']);
+        this.$state = $state;
+        this.projectService = projectService;
+    }
+
+    _createClass(ProjectsController, [{
+        key: 'viewProject',
+        value: function viewProject() {
+            var _this = this;
+
+            console.log(this.projectToView);
+            this.projectToView.getProject(this.projectToView.id).then(function () {
+                return _this.$state.go('project');
+            });
+        }
+    }]);
+
+    return ProjectsController;
+}();
+
+ProjectsController.$inject = ['projectService', '$state', '$stateParams'];
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48703,7 +48826,11 @@ var RegisterController = exports.RegisterController = function () {
 
             console.log('registering this thing!!!');
             this.userService.save(this.userToRegister).then(function () {
-                return _this.$state.go('home');
+                var userId = _this.userToRegister.Id;
+                var userName = _this.userToRegister.userName;
+                sessionStorage.setItem('userId', userId);
+                sessionStorage.setItem('userName', userName);
+                _this.$state.go('login');
             });
         }
     }]);
@@ -48714,7 +48841,7 @@ var RegisterController = exports.RegisterController = function () {
 RegisterController.$inject = ['userService', '$state'];
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48733,7 +48860,9 @@ var ProjectService = exports.ProjectService = function () {
         _classCallCheck(this, ProjectService);
 
         console.log('resource', $resource);
-        this.ProjectResource = $resource('http://localhost:64152/api/projects/:id');
+        this.ProjectResource = $resource('http://localhost:64152/api/projects/:id', { id: '@id' }, {
+            update: { method: 'PUT' }
+        });
     }
 
     _createClass(ProjectService, [{
@@ -48748,13 +48877,22 @@ var ProjectService = exports.ProjectService = function () {
             return this.ProjectResource.save(project).$promise;
         }
     }, {
+        key: 'edit',
+        value: function edit(id, vm) {
+
+            console.log(vm);
+
+            return this.ProjectResource.update({ id: id }, vm).$promise;
+        }
+    }, {
         key: 'getProject',
         value: function getProject(id) {
-            return this.ProjectResource.get({ id: id });
+            return this.ProjectResource.get({ id: id }).$promise;
         }
     }, {
         key: 'deleteProject',
         value: function deleteProject(id) {
+            console.log("Id to delete:" + id);
             return this.ProjectResource.delete({ id: id }).$promise;
         }
     }]);
@@ -48765,7 +48903,7 @@ var ProjectService = exports.ProjectService = function () {
 ProjectService.$inject = ['$resource'];
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48779,14 +48917,16 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var baseUrl = 'http://localhost:64152/api/user';
+
 var UserService = exports.UserService = function () {
     function UserService($resource) {
         _classCallCheck(this, UserService);
 
-        this.UserResource = $resource('http://localhost:64152/api/users/:id', null, {
+        this.UserResource = $resource(baseUrl, null, {
             login: {
                 method: 'POST',
-                url: 'http://localhost:64152/api/users/login'
+                url: baseUrl + '/login'
             }
         });
     }
@@ -48815,7 +48955,7 @@ var UserService = exports.UserService = function () {
 UserService.$inject = ['$resource'];
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(0);

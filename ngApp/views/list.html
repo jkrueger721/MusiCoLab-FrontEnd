@@ -1,35 +1,20 @@
 ﻿
-<div class="container projectList" ng-repeat="project in controller.projects">
-<div class="col-xs-6 col-sm-offset-3">
-    <div class="row">
-        <div class="row-fluid">
-            <div class="col-xs-1 play-button"><span class="glyphicons glyphicons-play"></span></div>
-            <div class="col-xs-11">
-                <div class="row">STMPD RECORDS BABY</div>
-                <div class="row">1.5k</div>
-            </div>
-        </div>
-        <div class="row">
-            lines of music
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-3">
-            Image
-        </div>
-        <div class="col-xs-9">
-            <div class="row-fluid title">{{project.name}}</div>
-            <div class="row-fluid description">Description of song</div>
+<div class="row project-list" >
+    <div class="project col-m-6 col-lg-3" ng-repeat="project in controller.projects">
+        <div class="">
+            <div class="card">
+                <div class="card-block">
+                    <h3 class="card-title">
+                        {{project.name}} 
+                    </h3>
+                    <h4 class="card-text"> {{project.style || '&nbsp;'}}</h4>
+                   
+                    <span><a ui-sref="edit({id: project.id})" class="btn btn-primary">edit</a></span>
+                    <span><a ui-sref="delete({id: project.id})" class="btn btn-danger">delete</a></span>
+                    <span ng-if="project.audioUrl"><a href="{{project.audioUrl}}">Download</a></span>
+                </div>
+            </div>      
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-3 daw">Daw</div>
-        <div class="col-xs-6 tags">Tags</div>
-        <div class="col-xs-3 shares">Shares</div>
-    </div>
-    <div class="row">
-        <span><a ui-sref="edit({id: project.id})">edit</a></span>
-        <span><a ui-sref="delete({id: project.id})">delete</a></span>
-    </div>
-</div>
-</div>
+</div>  
+
