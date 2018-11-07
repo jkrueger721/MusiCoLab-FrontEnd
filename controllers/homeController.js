@@ -1,7 +1,6 @@
 ﻿export class HomeController {
     constructor() {
-        let name = "LNastos"
-        localStorage.setItem("username", name);
+      
         console.log('home!!');
         this.message = 'hello world';
     }
