@@ -1,7 +1,8 @@
 ﻿export class CreateController {
-    constructor(projectService, $state) {
+    constructor(projectService, $state , User) {
         this.projectService = projectService;
         this.$state = $state;
+        this.User = User;
        
        console.log('CreateController');
       }
@@ -29,8 +30,7 @@
                // handleFilestack(response)
                console.log(response);
                const fileUrl = response.filesUploaded[0].url;
-                // project.AudioUrl = fileUrl;
-                // return project;
+                
                 this.projectToCreate.AudioUrl = fileUrl;
               });
             
@@ -40,4 +40,4 @@
 }
 
 
-CreateController.$inject = ['projectService', '$state'];
+CreateController.$inject = ['projectService', '$state' , 'User'];

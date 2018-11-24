@@ -18,15 +18,16 @@ export class ProjectsEditController {
         this.$state = $state;
         this.projectService = projectService;
     }
-
+    
     editProject() {
         let uId = sessionStorage.getItem('userId');
+    
         let vm = {
             userId : uId,
             updatedProject : this.projectToEdit
             
         };
-
+        console.log(this.projectToEdit);
         console.log("Got to EditProject. Id: " + vm.updatedProject.id);
         console.log("This is user Id :" + uId);
 
@@ -67,10 +68,25 @@ export class ProjectsDeleteController {
     }
 
     deleteProject() {
+        let uId = sessionStorage.getItem("userId");
+        console.log(this.projectToDelete);
+       let projectOwner = this.projectToDelete.projectOwner.id;
+       console.log('projectOwner: ' + projectOwner);
+        let vm = {
+           userId: uId,
+           deleteProject : this.projectToDelete
+            
+        };
         console.log('this is deleting');
-        this.projectService.deleteProject(this.projectToDelete.id).then(
-            () => this.$state.go('home')
-        );
+        if(projectOwner == uId){   
+            this.projectService.deleteProject(this.projectToDelete.id ,vm).then(
+                () => this.$state.go('home')
+            );
+        } else {
+
+            alert("You need to be project owner in order to delete a Project!");
+        }
+        
     }
 
 }

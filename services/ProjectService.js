@@ -3,7 +3,8 @@
     constructor($resource) {
         console.log('resource', $resource);
         this.ProjectResource = $resource('http://localhost:64152/api/projects/:id', { id: '@id'}, {
-            update: { method: 'PUT' }
+            update: { method: 'PUT' },
+            delete: { method: 'POST' }
         });
     }
 
@@ -28,9 +29,10 @@
         return this.ProjectResource.get({ id }).$promise;
     }
 
-    deleteProject(id) {
-        console.log("Id to delete:" + id);
-        return this.ProjectResource.delete({ id }).$promise;
+    deleteProject(id, vm) {
+        console.log(id);
+        console.log(vm);
+        return this.ProjectResource.delete({ id } , vm ).$promise;
     }
 
 }
