@@ -111,7 +111,13 @@ var _profileController = __webpack_require__(12);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_angular2.default.module('starterkit', [_angularUiRouter2.default, _angularResource2.default, _angularBootstrapNpm2.default]).service('projectService', _ProjectService.ProjectService).service('userService', _UserService.UserService).config(routing);
+_angular2.default.module('starterkit', [_angularUiRouter2.default, _angularResource2.default, _angularBootstrapNpm2.default]).service('projectService', _ProjectService.ProjectService).service('userService', _UserService.UserService).factory('User', function () {
+    return { userLogged: false };
+}).controller('MainController'[('User', function () {
+    undefined.User = User;
+})]).config(routing);
+// import {MainController} from './controllers/mainController';
+
 
 routing.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
 function routing($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -48469,11 +48475,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var CreateController = exports.CreateController = function () {
-    function CreateController(projectService, $state) {
+    function CreateController(projectService, $state, user) {
         _classCallCheck(this, CreateController);
 
         this.projectService = projectService;
         this.$state = $state;
+        this.User = user;
 
         console.log('CreateController');
     }
@@ -48509,8 +48516,7 @@ var CreateController = exports.CreateController = function () {
                 // handleFilestack(response)
                 console.log(response);
                 var fileUrl = response.filesUploaded[0].url;
-                // project.AudioUrl = fileUrl;
-                // return project;
+
                 _this2.projectToCreate.AudioUrl = fileUrl;
             });
         }
@@ -48519,7 +48525,7 @@ var CreateController = exports.CreateController = function () {
     return CreateController;
 }();
 
-CreateController.$inject = ['projectService', '$state'];
+CreateController.$inject = ['projectService', '$state', 'User'];
 
 /***/ }),
 /* 9 */
@@ -48532,28 +48538,14 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var HomeController = exports.HomeController = function () {
-    function HomeController() {
-        _classCallCheck(this, HomeController);
+var HomeController = exports.HomeController = function HomeController() {
+    _classCallCheck(this, HomeController);
 
-        console.log('home!!');
-        this.message = 'hello world';
-    }
-
-    _createClass(HomeController, [{
-        key: 'getUsername',
-        value: function getUsername() {
-            var name = localStorage.getItem("username");
-            console.log(name);
-        }
-    }]);
-
-    return HomeController;
-}();
+    console.log('home!!');
+    this.message = 'hello world';
+};
 
 /***/ }),
 /* 10 */
@@ -48597,12 +48589,13 @@ var ProjectsEditController = exports.ProjectsEditController = function () {
             var _this2 = this;
 
             var uId = sessionStorage.getItem('userId');
+
             var vm = {
                 userId: uId,
                 updatedProject: this.projectToEdit
 
             };
-
+            console.log(this.projectToEdit);
             console.log("Got to EditProject. Id: " + vm.updatedProject.id);
             console.log("This is user Id :" + uId);
 
@@ -48627,7 +48620,8 @@ var ProjectsEditController = exports.ProjectsEditController = function () {
                 var fileUrl = response.filesUploaded[0].url;
                 // project.AudioUrl = fileUrl;
                 // return project;
-                _this3.projectToCreate.AudioUrl = fileUrl;
+                console.log(fileUrl);
+                _this3.projectToEdit.audioUrl = fileUrl;
             });
         }
     }]);
@@ -48655,10 +48649,24 @@ var ProjectsDeleteController = exports.ProjectsDeleteController = function () {
         value: function deleteProject() {
             var _this5 = this;
 
+            var uId = sessionStorage.getItem("userId");
+            console.log(this.projectToDelete);
+            var projectOwner = this.projectToDelete.projectOwner.id;
+            console.log('projectOwner: ' + projectOwner);
+            var vm = {
+                userId: uId,
+                deleteProject: this.projectToDelete
+
+            };
             console.log('this is deleting');
-            this.projectService.deleteProject(this.projectToDelete.id).then(function () {
-                return _this5.$state.go('home');
-            });
+            if (projectOwner == uId) {
+                this.projectService.deleteProject(this.projectToDelete.id, vm).then(function () {
+                    return _this5.$state.go('home');
+                });
+            } else {
+
+                alert("You need to be project owner in order to delete a Project!");
+            }
         }
     }]);
 
@@ -48683,12 +48691,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var LoginController = exports.LoginController = function () {
-    function LoginController(userService, $state, $stateParams) {
+    function LoginController(userService, $state, $stateParams, user) {
         _classCallCheck(this, LoginController);
 
         this.userService = userService;
         this.userToLogin = userService.getUser($stateParams['id']);
         this.$state = $state;
+        this.User = user;
     }
 
     _createClass(LoginController, [{
@@ -48697,11 +48706,14 @@ var LoginController = exports.LoginController = function () {
             var _this = this;
 
             console.log('login');
+            console.log(this.User);
 
             this.userService.login(this.userToLogin).then(function (result) {
                 console.log(result);
                 var userId = result.id;
                 var userName = result.userName;
+                _this.User.userLogged = true;
+                console.log(_this.User);
                 console.log(userId, 'this is user id');
                 sessionStorage.setItem("userId", userId);
                 sessionStorage.setItem('userName', userName);
@@ -48715,7 +48727,7 @@ var LoginController = exports.LoginController = function () {
     return LoginController;
 }();
 
-LoginController.$inject = ['userService', '$state', '$stateParams'];
+LoginController.$inject = ['userService', '$state', '$stateParams', 'User'];
 
 /***/ }),
 /* 12 */
@@ -48733,17 +48745,21 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ProfileController = exports.ProfileController = function () {
-    function ProfileController(projectService, $state) {
+    function ProfileController(projectService, $state, User) {
         _classCallCheck(this, ProfileController);
 
+        this._user = User;
         this.user = sessionStorage.getItem("userName");
         this.myProjects = projectService.listProjects();
         this.$state = $state;
+        console.log(this._user);
     }
 
     _createClass(ProfileController, [{
         key: 'logOut',
         value: function logOut() {
+            //this._user.userLogged = false;
+            console.log(this._user);
             sessionStorage.removeItem('userId');
             sessionStorage.removeItem('userName');
             this.$state.go('home');
@@ -48753,7 +48769,7 @@ var ProfileController = exports.ProfileController = function () {
     return ProfileController;
 }();
 
-ProfileController.$inject = ['projectService', '$state', '$stateParams'];
+ProfileController.$inject = ['projectService', '$state', '$stateParams', 'User'];
 
 /***/ }),
 /* 13 */
@@ -48861,7 +48877,8 @@ var ProjectService = exports.ProjectService = function () {
 
         console.log('resource', $resource);
         this.ProjectResource = $resource('http://localhost:64152/api/projects/:id', { id: '@id' }, {
-            update: { method: 'PUT' }
+            update: { method: 'PUT' },
+            delete: { method: 'POST' }
         });
     }
 
@@ -48891,9 +48908,10 @@ var ProjectService = exports.ProjectService = function () {
         }
     }, {
         key: 'deleteProject',
-        value: function deleteProject(id) {
-            console.log("Id to delete:" + id);
-            return this.ProjectResource.delete({ id: id }).$promise;
+        value: function deleteProject(id, vm) {
+            console.log(id);
+            console.log(vm);
+            return this.ProjectResource.delete({ id: id }, vm).$promise;
         }
     }]);
 

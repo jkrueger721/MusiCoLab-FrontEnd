@@ -4,12 +4,14 @@
 <head>
   <title>starterkit</title>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <base href="/" />
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="/ngApp/css/site.css"/>
 </head>
 
-<body>  <nav class="navbar navbar-inverse">
+<body>  
+    <nav class="navbar navbar-inverse">
   <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -27,6 +29,7 @@
           <ul class="nav nav-tabs navbar-nav">
               <li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
               <li><a href="/list">Browse</a></li>
+              <!-- <li ng-if="MainController.User.userLogged === true"><a href="/profile">My Profile</a></li> -->
               <li><a href="/profile">My Profile</a></li>
           </ul>
           <form class="navbar-form navbar-left">
