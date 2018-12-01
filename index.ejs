@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="starterkit">
+
+<head>
+  <title>starterkit</title>
+  <meta charset="utf-8">
+  <base href="/" />
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/ngApp/css/site.css"/>
+</head>
+
+<body ng-controllor="MainController">  
+    <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MusiCoLab</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav nav-tabs navbar-nav">
+              <li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
+              <li><a href="/list">Browse</a></li>
+              <li><a href="/profile">My Profile</a></li>
+          </ul>
+          <form class="navbar-form navbar-left">
+              <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search">
+                  <div class="input-group-btn">
+                      <button class="btn btn-default" type="submit">
+                          <i class="glyphicon glyphicon-search"></i>
+                      </button>
+                  </div>
+              </div>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+              <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+              <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          </ul>
+      </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+    <ui-view></ui-view>
+</div>
+    <script src="https://static.filestackapi.com/v3/filestack.js"></script>
+    <script src="/ngApp/bundle.js"></script>
+ 
+ 
+  
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+﻿<div class="col-sm-6 col-sm-offset-3">
+    <form class="flex-post-form" >
+        <div class="form-group">
+            <label>Project Name:</label>
+            <input type="text" class="form-control" id="name" ng-model="controller.projectToCreate.name">
+        </div>
+        <div class="form-group">
+            <label>DAW</label>
+            <input type="text" class="form-control" id="daw" ng-model="controller.projectToCreate.daw">
+        </div>
+        <div class="form-group">
+            <label>Style</label>
+            <input type="text" class="form-control" id="style" ng-model="controller.projectToCreate.style"/>
+        </div>
+        <div class="form-group">
+            <label>Instruments</label>
+            <input type="text" class="form-control" id="instruments" ng-model="controller.projectToCreate.instruments" />
+        </div>
+        <div class="form-group">
+            <label for="comment">Comments: </label>
+            <textarea rows="6" class="form-control" id="comment" ng-model="controller.projectToCreate.comment"></textarea>
+        </div>
+        <div class="row">
+        <div class="checkbox col-sm-1">
+            <label><input type="checkbox" ng-model="controller.projectToCreate.IsPrivate"> Private</label>
+        </div>
+        
+        <div class="col-sm-offset-11"><input type="text" ng-model="controller.projectToCreate.AudioUrl"><button ng-click="controller.upload()">Upload</button></div>
+            </div>
+        <button class="btn btn-default" value="Save" ng-click="controller.addProject()">Submit</button>
+    </form>
+</div>

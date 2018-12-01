@@ -1,58 +1,98 @@
-"use strict";
-var express = require("express");
-var path = require("path");
-var logger = require("morgan");
-var cookieParser = require("cookie-parser");
-var bodyParser = require("body-parser");
-var index_1 = require("./routes/index");
-var users_1 = require("./routes/users");
-var app = express();
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/bower_components', express.static(path.join(__dirname, 'bower_components')));
-app.use('/ngApp', express.static(path.join(__dirname, 'ngApp')));
-app.use('/api', express.static(path.join(__dirname, 'api')));
-app.use('/', index_1.default);
-app.use('/users', users_1.default);
-// APIs
-app.use('/api', require('./api/makes'));
-app.use('/api', require('./api/cars'));
-app.use('/api', require('./api/movies'));
-app.use('/api', require('./api/genres'));
-app.use('/api', require('./api/guestbook'));
-app.use('/api', require('./api/deepThought'));
-app.get('/*', function (req, res, next) {
-    if (/.js|.html|.css|templates|js|scripts/.test(req.path) || req.xhr) {
-        return next({ status: 404, message: 'Not Found' });
-    }
-    else {
-        return res.render('index');
-    }
-});
-app.use(function (req, res, next) {
-    var err = new Error('Not Found');
-    err['status'] = 404;
-    next(err);
-});
-if (app.get('env') === 'development') {
-    app.use(function (err, req, res, next) {
-        res.status(err['status'] || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
+import angular from 'angular';
+import uirouter from 'angular-ui-router';
+import ngResource from 'angular-resource';
+import uiBootstrap from 'angular-bootstrap-npm';
+import {ProjectService} from './services/ProjectService'
+import {HomeController} from './controllers/homeController';
+import {AboutController} from './controllers/aboutController';
+import {LoginController} from './controllers/loginController';
+import {RegisterController} from './controllers/registerController';
+import {CreateController} from './controllers/createController';
+import {ListController} from './controllers/listController';
+import {MainController} from './controllers/mainController';
+import {ProjectsController} from './controllers/projectController';
+import {ProjectsDeleteController} from './controllers/listController';
+import {ProjectsEditController} from './controllers/listController';
+import {UserService} from './services/UserService';
+import {ProfileController} from './controllers/profileController';
+
+
+
+
+
+    angular.module('starterkit', [uirouter, ngResource, uiBootstrap])
+        .service('projectService', ProjectService)
+            .service('userService', UserService)
+                .factory('User', () => { return { userLogged: false } })
+                    .config(routing);
+
+    routing.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider' ];
+    function routing($stateProvider, $urlRouterProvider, $locationProvider) {
+        $stateProvider
+           .state('home', {
+            url: '/',
+            templateUrl: '/ngApp/views/home.html',
+            controller: HomeController,
+            controllerAs: 'controller'
+        })
+        .state('about', {
+            url: '/about',
+            templateUrl: '/ngApp/views/about.html',
+            controller: AboutController,
+            controllerAs: 'controller'
+        })
+        .state('login', {
+            url: '/login',
+            templateUrl: '/ngApp/views/login.html',
+            controller: LoginController,
+            controllerAs: 'controller'
+        })
+        .state('register', {
+            url: '/register',
+            templateUrl: '/ngApp/views/register.html',
+            controller: RegisterController,
+            controllerAs: 'controller'
+        })
+        .state('profile',{
+            url:'/profile',
+            templateUrl: '/ngApp/views/profile.html',
+            controller: ProfileController,
+            controllerAs: 'controller'
+        })
+        .state('create', {
+            url: '/create',
+            templateUrl: '/ngApp/views/createProject.html',
+            controller: CreateController,
+            controllerAs: 'controller'
+        })
+        .state('delete',{
+            url: '/delete/:id',
+            templateUrl: '/ngApp/views/delete.html',
+            controller: ProjectsDeleteController,
+            controllerAs: 'controller'
+        })
+        .state('edit',{
+            url: '/edit/:id',
+            templateUrl: '/ngApp/views/edit.html',
+            controller : ProjectsEditController,
+            controllerAs: 'controller'
+        })
+        .state('list', {
+            url: '/list',
+            templateUrl: '/ngApp/views/list.html',
+            controller: ListController,
+            controllerAs: 'controller'
+        })
+        .state('project', {
+            url: '/project',
+            templateUrl: '/ngApp/views/project.html',
+            controller: ProjectsController,
+            controllerAs: 'controller'
+        })
+        .state('notFound', {
+            url: '/notFound',
+            templateUrl: '/ngApp/views/notFound.html'
         });
-    });
-}
-app.use(function (err, req, res, next) {
-    res.status(err['status'] || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
-module.exports = app;
+        $urlRouterProvider.otherwise('/notFound');
+        $locationProvider.html5Mode(true);
+    }
