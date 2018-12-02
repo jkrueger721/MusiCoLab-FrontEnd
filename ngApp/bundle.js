@@ -48712,18 +48712,12 @@ var LoginController = exports.LoginController = function () {
                 console.log(item);
             });
         }
-    }, {
-        key: 'loggedUser',
-        value: function loggedUser() {
-
-            return sessionStorage.getItem("userId");
-        }
     }]);
 
     return LoginController;
 }();
 
-LoginController.$inject = ['userService', '$state', '$stateParams', 'User'];
+LoginController.$inject = ['userService', '$state', '$stateParams'];
 
 /***/ }),
 /* 12 */
@@ -48745,12 +48739,17 @@ var ProfileController = exports.ProfileController = function () {
         _classCallCheck(this, ProfileController);
 
         this.user = sessionStorage.getItem("userName");
+        this.userId = sessionStorage.getItem("userId");
         this.myProjects = projectService.listProjects();
         this.$state = $state;
+        if (this.user == null) {
+            alert('You need to be logged in');
+            this.$state.go("login");
+        }
     }
 
     _createClass(ProfileController, [{
-        key: 'logOut',
+        key: "logOut",
         value: function logOut() {
 
             sessionStorage.removeItem('userId');
@@ -48890,8 +48889,6 @@ var ProjectService = exports.ProjectService = function () {
         key: 'edit',
         value: function edit(id, vm) {
 
-            console.log(vm);
-
             return this.ProjectResource.update({ id: id }, vm).$promise;
         }
     }, {
@@ -48902,8 +48899,7 @@ var ProjectService = exports.ProjectService = function () {
     }, {
         key: 'deleteProject',
         value: function deleteProject(id, vm) {
-            console.log(id);
-            console.log(vm);
+
             return this.ProjectResource.delete({ id: id }, vm).$promise;
         }
     }]);

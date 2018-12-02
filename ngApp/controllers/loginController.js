@@ -31,13 +31,10 @@
       
     
     }
-    loggedUser() {
-
-        return sessionStorage.getItem("userId");
-    }
+    
             
         
     
 }
 
-    LoginController.$inject = ['userService', '$state', '$stateParams' , 'User'];
+    LoginController.$inject = ['userService', '$state', '$stateParams'];

@@ -18,9 +18,7 @@
         return this.ProjectResource.save(project).$promise;
     }
     edit(id, vm) {
-       
-        console.log(vm);
-       
+    
 
         return this.ProjectResource.update({id}, vm).$promise;
     }
@@ -30,8 +28,7 @@
     }
 
     deleteProject(id, vm) {
-        console.log(id);
-        console.log(vm);
+       
         return this.ProjectResource.delete({ id } , vm ).$promise;
     }
 
