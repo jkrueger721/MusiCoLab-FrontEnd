@@ -9,7 +9,6 @@ import {LoginController} from './controllers/loginController';
 import {RegisterController} from './controllers/registerController';
 import {CreateController} from './controllers/createController';
 import {ListController} from './controllers/listController';
-// import {MainController} from './controllers/mainController';
 import {ProjectsController} from './controllers/projectController';
 import {ProjectsDeleteController} from './controllers/listController';
 import {ProjectsEditController} from './controllers/listController';
@@ -26,11 +25,6 @@ import {ProfileController} from './controllers/profileController';
 
             .service('userService', UserService)
 
-                .factory('User', () => { return { userLogged: false } })
-
-                .controller('MainController'['User' , () => {
-                    this.User = User;
-                }])
                     .config(routing);
 
     routing.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider' ];
