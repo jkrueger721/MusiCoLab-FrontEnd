@@ -111,13 +111,7 @@ var _profileController = __webpack_require__(12);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_angular2.default.module('starterkit', [_angularUiRouter2.default, _angularResource2.default, _angularBootstrapNpm2.default]).service('projectService', _ProjectService.ProjectService).service('userService', _UserService.UserService).factory('User', function () {
-    return { userLogged: false };
-}).controller('MainController'[('User', function () {
-    undefined.User = User;
-})]).config(routing);
-// import {MainController} from './controllers/mainController';
-
+_angular2.default.module('starterkit', [_angularUiRouter2.default, _angularResource2.default, _angularBootstrapNpm2.default]).service('projectService', _ProjectService.ProjectService).service('userService', _UserService.UserService).config(routing);
 
 routing.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
 function routing($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -48691,13 +48685,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var LoginController = exports.LoginController = function () {
-    function LoginController(userService, $state, $stateParams, user) {
+    function LoginController(userService, $state, $stateParams) {
         _classCallCheck(this, LoginController);
 
         this.userService = userService;
         this.userToLogin = userService.getUser($stateParams['id']);
         this.$state = $state;
-        this.User = user;
     }
 
     _createClass(LoginController, [{
@@ -48706,14 +48699,11 @@ var LoginController = exports.LoginController = function () {
             var _this = this;
 
             console.log('login');
-            console.log(this.User);
 
             this.userService.login(this.userToLogin).then(function (result) {
                 console.log(result);
                 var userId = result.id;
                 var userName = result.userName;
-                _this.User.userLogged = true;
-                console.log(_this.User);
                 console.log(userId, 'this is user id');
                 sessionStorage.setItem("userId", userId);
                 sessionStorage.setItem('userName', userName);
@@ -48721,6 +48711,12 @@ var LoginController = exports.LoginController = function () {
                 var item = sessionStorage.getItem("userId");
                 console.log(item);
             });
+        }
+    }, {
+        key: 'loggedUser',
+        value: function loggedUser() {
+
+            return sessionStorage.getItem("userId");
         }
     }]);
 
@@ -48745,21 +48741,18 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ProfileController = exports.ProfileController = function () {
-    function ProfileController(projectService, $state, User) {
+    function ProfileController(projectService, $state) {
         _classCallCheck(this, ProfileController);
 
-        this._user = User;
         this.user = sessionStorage.getItem("userName");
         this.myProjects = projectService.listProjects();
         this.$state = $state;
-        console.log(this._user);
     }
 
     _createClass(ProfileController, [{
         key: 'logOut',
         value: function logOut() {
-            //this._user.userLogged = false;
-            console.log(this._user);
+
             sessionStorage.removeItem('userId');
             sessionStorage.removeItem('userName');
             this.$state.go('home');
@@ -48769,7 +48762,7 @@ var ProfileController = exports.ProfileController = function () {
     return ProfileController;
 }();
 
-ProfileController.$inject = ['projectService', '$state', '$stateParams', 'User'];
+ProfileController.$inject = ['projectService', '$state', '$stateParams'];
 
 /***/ }),
 /* 13 */
