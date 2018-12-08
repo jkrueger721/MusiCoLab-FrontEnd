@@ -80,7 +80,9 @@ export class ProjectsDeleteController {
         };
         console.log('this is deleting');
         if(projectOwner == uId){   
-            this.projectService.deleteProject(this.projectToDelete.id ,vm).then(
+            this.projectService.deleteProject(this.projectToDelete.id ,vm)
+            .then( alert('Project Successfully Deleted') )
+            .then(
                 () => this.$state.go('home')
             );
         } else {

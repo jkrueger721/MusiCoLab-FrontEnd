@@ -1,29 +1,29 @@
-<form class="flex-post-form" >
+<form class="flex-post-form "  >
     <input type="hidden" id="id" ng-model="controller.projectToEdit.id" />
     <div class="form-group">
-        <label>Project Name:</label>
+        <label class="dark-orange-text">Project Name:</label>
         <input type="text" class="form-control" id="name" ng-model="controller.projectToEdit.name">
     </div>
     <div class="form-group">
-        <label>DAW</label>
+        <label  class="dark-orange-text">DAW</label>
         <input type="text" class="form-control" id="daw" ng-model="controller.projectToEdit.daw">
     </div>
     <div class="form-group">
-        <label>Style</label>
+        <label  class="dark-orange-text">Style</label>
         <input type="text" class="form-control" id="style" ng-model="controller.projectToEdit.style"/>
     </div>
     <div class="form-group">
-        <label>Instruments</label>
+        <label  class="dark-orange-text">Instruments</label>
         <input type="text" class="form-control" id="instruments" ng-model="controller.projectToEdit.instruments" />
     </div>
     <div class="form-group">
-        <label for="comment">Comments: </label>
-        <textarea rows="6" class="form-control" id="comment" ng-model="controller.projectToEdit.comment"></textarea>
+        <label for="comment"  class="dark-orange-text">Comments: </label>
+        <input rows="6" class="form-control" id="comment" ng-model="controller.projectToEdit.comment"/>
     </div>
     
     <div class="checkbox">
-        <label><input type="checkbox" ng-modal="controller.projectToEdit.IsPrivate"> Private</label>
+        <label class="dark-orange-text"><input type="checkbox" ng-modal="controller.projectToEdit.IsPrivate"> Private</label>
     </div>
-    <div class="col-sm-offset-11"><input type="text" ng-model="controller.projectToCreate.AudioUrl"><button ng-click="controller.upload()">Upload</button></div>
-    <button type="submit" class="btn btn-default" value="save" ng-click="controller.editProject()">Submit</button>
+    <div class="col-sm-offset-11"><input type="text" ng-model="controller.projectToCreate.AudioUrl" class="dark-orange-text"><button ng-click="controller.upload()">Upload</button></div>
+    <button type="submit" class="btn btn-default" class="dark-orange-text" value="save" ng-click="controller.editProject()">Submit</button>
 </form>

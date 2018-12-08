@@ -1,12 +1,26 @@
 html, body{
     height: 100%;
+    background-color: #21222f;
 }
+
+/* #home-greeting {
+    background-image: -moz-linear-gradient(ngApp\css\img\studio.jpg);
+} */
 .silver-text {
     color: silver;
+    font-family: 'Raleway', sans-serif;
+    font-size: 25px
 } 
 .balck-text {
     color: black;
-    font-family:'Raleway', sans-serif; 
+     
+}
+#brand{
+    color: darkorange;
+}
+.dark-orange-text{
+    color: darkorange;
+    font-family:'Raleway', sans-serif;
 }
 .projectItem {
     font-size: 20px;

@@ -2,7 +2,7 @@
 
     constructor($resource) {
         console.log('resource', $resource);
-        this.ProjectResource = $resource('http://localhost:64152/api/projects/:id', { id: '@id'}, {
+        this.ProjectResource = $resource('https://desolate-bayou-20758.herokuapp.com/api/projects/:id', { id: '@id'}, {
             update: { method: 'PUT' },
             delete: { method: 'POST' }
         });
