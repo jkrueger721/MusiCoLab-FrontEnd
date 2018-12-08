@@ -1,10 +1,10 @@
 ﻿export class CreateController {
-    constructor(projectService, $state , user) {
+    constructor(projectService, $state ) {
         this.projectService = projectService;
         this.$state = $state;
-        this.User = user;
+        
        
-       console.log('CreateController');
+      
       }
        
       addProject() {
@@ -40,4 +40,4 @@
 }
 
 
-CreateController.$inject = ['projectService', '$state' , 'User'];
+CreateController.$inject = ['projectService', '$state' ];

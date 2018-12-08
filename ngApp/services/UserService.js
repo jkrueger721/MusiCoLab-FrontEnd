@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:64152/api/user';
+const baseUrl = 'https://desolate-bayou-20758.herokuapp.com/api/user';
 export class UserService {
     constructor($resource) {
         this.UserResource = $resource(baseUrl, null , {
