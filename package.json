@@ -20,7 +20,7 @@
 		"babel-preset-latest": "6.16.0",
 		"babel-register": "6.16.3",
 		"body-parser": "~1.15.1",
-		"bootstrap": "^3.3.7",
+		"bootstrap": "^3.4.1",
 		"bower-webpack-plugin": "^0.1.9",
 		"cookie-parser": "~1.4.3",
 		"debug": "~2.2.0",
